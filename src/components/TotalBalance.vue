@@ -1,5 +1,5 @@
 <template>
-  <div class="total-balance">Balance: {{ balance }}</div>
+  <div class="total-balance" :class="activeClass">Balance: {{ balance }}</div>
 </template>
 
 <script>
@@ -12,6 +12,14 @@ export default {
       default: 0,
     },
   },
+  computed: {
+    activeClass() {
+      return {
+        red: this.balance < 0,
+        green: this.balance > 0,
+      };
+    },
+  },
 };
 </script>
 
@@ -21,5 +29,11 @@ export default {
   margin-bottom: 15px;
   margin-top: 15px;
   text-transform: uppercase;
+}
+.red {
+  color: red;
+}
+.green {
+  color: green;
 }
 </style>
