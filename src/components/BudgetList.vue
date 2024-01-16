@@ -2,13 +2,7 @@
   <div class="burger-list-wrap">
     <ElCard :header="header">
       <template v-if="!isEmpty">
-        <div class="list-item" v-for="(item, prop) in list" :key="prop">
-          <span class="budget-comment">{{ item.comment }}</span>
-          <div>
-            <span class="budget-value">{{ item.value }}</span>
-            <ElButton type="danger" size="mini" @click="deleteItem(item.id)">Delete</ElButton>
-          </div>
-        </div>
+        <BudgetListItem :list="list" @deleteItem="deleteItem" />
       </template>
       <ElAlert v-else type="info" title="This list is empty" :closable="false" />
     </ElCard>
@@ -17,8 +11,13 @@
 
 <script>
 /* eslint-disable */
+import BudgetListItem from "./BudgetListItem.vue";
+
 export default {
   name: "BudgetList",
+  components: {
+    BudgetListItem,
+  },
   data: () => ({
     header: "List of my budget",
   }),
