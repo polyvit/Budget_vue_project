@@ -44,7 +44,8 @@ export default {
       delete this.list[id];
     },
     onSubmitForm(data) {
-      this.list[this.list.length] = { ...data, id: this.list.length };
+      const newData = { ...data, id: Math.random() + 1 };
+      this.list[newData.id] = newData;
     },
   },
 };

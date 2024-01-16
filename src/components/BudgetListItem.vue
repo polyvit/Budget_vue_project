@@ -1,10 +1,15 @@
 <template>
   <div class="list-item" v-for="(item, prop) in list" :key="prop">
+    <el-icon v-if="item.type === 'INCOME'"><Top /></el-icon>
+    <el-icon v-else><Bottom /></el-icon>
     <span class="budget-comment">{{ item.comment }}</span>
-    <div>
-      <span class="budget-value">{{ item.value }}</span>
-      <ElButton type="danger" size="mini" @click="dialogVisible = true">Delete</ElButton>
-    </div>
+    <span
+      class="budget-value"
+      :class="`${item.value >= 0 ? 'budget-value-green' : 'budget-value-red'}`"
+    >
+      {{ item.value }}
+    </span>
+    <ElButton type="danger" @click="dialogVisible = true">Delete</ElButton>
     <ElDialog v-model="dialogVisible" :before-close="handleClose">
       <span>Are you sure that you want to delete it?</span>
       <template #footer>
@@ -19,6 +24,7 @@
 
 <script>
 /* eslint-disable */
+
 export default {
   name: "BudgetListItem",
   data: () => ({
@@ -42,12 +48,21 @@ export default {
 <style scoped>
 .list-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 }
+.budget-comment {
+  margin-left: 15px;
+}
 .budget-value {
   font-weight: bold;
+  margin-left: auto;
   margin-right: 15px;
+}
+.budget-value-red {
+  color: red;
+}
+.budget-value-green {
+  color: green;
 }
 </style>
