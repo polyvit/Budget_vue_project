@@ -41,7 +41,12 @@ export default {
     onSubmit() {
       this.$refs.addItemForm.validate((valid, fields) => {
         if (valid) {
-          this.$emit("submitForm", { ...this.formData });
+          const data = {
+            ...this.formData,
+            value:
+              this.formData.type === "OUTCOME" ? this.formData.value * -1 : this.formData.value * 1,
+          };
+          this.$emit("submitForm", data);
           this.$refs.addItemForm.resetFields();
         } else {
           console.log("error submit!", fields);
