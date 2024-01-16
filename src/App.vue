@@ -1,5 +1,6 @@
 <template>
   <h1>Budget project</h1>
+  <Form @submitForm="onSubmitForm" />
   <TotalBalance :balance="totalBalance" />
   <BudgetList :list="list" @deleteItem="onDeleteItem" />
 </template>
@@ -8,12 +9,14 @@
 /* eslint-disable */
 import BudgetList from "./components/BudgetList.vue";
 import TotalBalance from "./components/TotalBalance.vue";
+import Form from "./components/Form.vue";
 
 export default {
   name: "App",
   components: {
     BudgetList,
     TotalBalance,
+    Form,
   },
   data: () => ({
     list: {
@@ -39,6 +42,9 @@ export default {
   methods: {
     onDeleteItem(id) {
       delete this.list[id];
+    },
+    onSubmitForm(data) {
+      this.list[this.list.length] = { ...data, id: this.list.length };
     },
   },
 };

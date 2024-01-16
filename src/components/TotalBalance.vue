@@ -19,6 +19,7 @@ export default {
 .total-balance {
   font-size: 22px;
   margin-bottom: 15px;
+  margin-top: 15px;
   text-transform: uppercase;
 }
 </style>
