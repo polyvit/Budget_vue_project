@@ -22,21 +22,27 @@
 /* eslint-disable */
 export default {
   name: "Form",
-  data: () => ({
-    formData: {
-      value: 0,
-      comment: "",
-      type: "INCOME",
-    },
-    rules: {
-      type: [{ required: true, message: "Please select type", trigger: "blur" }],
-      comment: [{ required: true, message: "Please print comment", trigger: "blur" }],
-      value: [
-        { required: true, message: "Please print value", trigger: "blur" },
-        { type: "number", message: "Value must be a number", trigger: "change" },
-      ],
-    },
-  }),
+  data() {
+    return {
+      formData: {
+        value: 0,
+        comment: "",
+        type: "INCOME",
+      },
+      rules: {
+        type: [{ required: true, message: "Please select type", trigger: "blur" }],
+        comment: [{ required: true, message: "Please print comment", trigger: "blur" }],
+        value: [
+          { required: true, message: "Please print value", trigger: "blur" },
+          { type: "number", message: "Value must be a number", trigger: "change" },
+          {
+            validator: this.validateValue,
+            trigger: "blur",
+          },
+        ],
+      },
+    };
+  },
   methods: {
     onSubmit() {
       this.$refs.addItemForm.validate((valid, fields) => {
@@ -52,6 +58,13 @@ export default {
           console.log("error submit!", fields);
         }
       });
+    },
+    validateValue(rule, value, callback) {
+      if (Number(value) <= 0) {
+        callback(new Error("Value cannot be below zero"));
+      } else {
+        callback();
+      }
     },
   },
 };
