@@ -2,7 +2,7 @@
   <h1>Budget project</h1>
   <Form @submitForm="onSubmitForm" />
   <TotalBalance :balance="totalBalance" />
-  <BudgetList :list="list" @deleteItem="onDeleteItem" />
+  <BudgetList :list="budgetList" @deleteItem="onDeleteItem" />
 </template>
 
 <script>
@@ -10,6 +10,7 @@
 import BudgetList from "./components/BudgetList.vue";
 import TotalBalance from "./components/TotalBalance.vue";
 import Form from "./components/Form.vue";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -18,34 +19,19 @@ export default {
     TotalBalance,
     Form,
   },
-  data: () => ({
-    list: {
-      1: {
-        type: "INCOME",
-        value: 100,
-        comment: "Comment",
-        id: 1,
-      },
-      2: {
-        type: "OUTCOME",
-        value: -50,
-        comment: "Comment 2",
-        id: 2,
-      },
-    },
-  }),
   computed: {
     totalBalance() {
-      return Object.values(this.list).reduce((acc, item) => acc + item.value, 0);
+      return Object.values(this.budgetList).reduce((acc, item) => acc + item.value, 0);
     },
+    ...mapGetters("list", ["budgetList"]),
   },
   methods: {
+    ...mapActions("list", ["addItem", "deleteItem"]),
     onDeleteItem(id) {
-      delete this.list[id];
+      this.deleteItem(id);
     },
     onSubmitForm(data) {
-      const newData = { ...data, id: Math.random() + 1 };
-      this.list[newData.id] = newData;
+      this.addItem(data);
     },
   },
 };

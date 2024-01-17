@@ -9,17 +9,17 @@
     >
       {{ item.value }}
     </span>
-    <ElButton type="danger" @click="dialogVisible = true">Delete</ElButton>
-    <ElDialog v-model="dialogVisible" :before-close="handleClose">
-      <span>Are you sure that you want to delete it?</span>
-      <template #footer>
-        <span class="dialog-footer">
-          <ElButton @click="dialogVisible = false">Cancel</ElButton>
-          <ElButton type="primary" @click="deleteItem(item.id)"> Confirm </ElButton>
-        </span>
-      </template>
-    </ElDialog>
+    <ElButton type="danger" @click="onBtnClick(item)">Delete</ElButton>
   </div>
+  <ElDialog v-model="dialogVisible" :before-close="handleClose">
+    <span>Are you sure that you want to delete it?</span>
+    <template #footer>
+      <span class="dialog-footer">
+        <ElButton @click="dialogVisible = false">Cancel</ElButton>
+        <ElButton type="primary" @click="deleteItem"> Confirm </ElButton>
+      </span>
+    </template>
+  </ElDialog>
 </template>
 
 <script>
@@ -29,6 +29,7 @@ export default {
   name: "BudgetListItem",
   data: () => ({
     dialogVisible: false,
+    deletedId: 0,
   }),
   props: {
     list: {
@@ -37,9 +38,13 @@ export default {
     },
   },
   methods: {
-    deleteItem(id) {
+    deleteItem() {
       this.dialogVisible = false;
-      this.$emit("deleteItem", id);
+      this.$emit("deleteItem", this.deletedId);
+    },
+    onBtnClick(item) {
+      this.dialogVisible = true;
+      this.deletedId = item.id;
     },
   },
 };
